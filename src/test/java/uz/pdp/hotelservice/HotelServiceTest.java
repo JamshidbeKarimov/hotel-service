@@ -1,17 +1,12 @@
 package uz.pdp.hotelservice;
 
-import ch.qos.logback.core.model.processor.conditional.ThenModelHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import uz.pdp.hotelservice.domain.dto.HotelDto;
 import uz.pdp.hotelservice.domain.entity.HotelEntity;
-import uz.pdp.hotelservice.domain.entity.LocationEntity;
 import uz.pdp.hotelservice.exeption.DuplicateDataException;
 import uz.pdp.hotelservice.repository.HotelRepository;
 import uz.pdp.hotelservice.service.HotelService;
