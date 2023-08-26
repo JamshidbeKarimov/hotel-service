@@ -3,12 +3,13 @@ package uz.pdp.hotelservice.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import uz.pdp.hotelservice.domain.entity.HotelEntity;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
+@Repository
 public interface HotelRepository extends JpaRepository<HotelEntity, UUID> {
     public Optional<HotelEntity> findByName(String name);
     @Query("SELECT h FROM HotelEntity h WHERE " +

@@ -4,15 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RestController;
 import uz.pdp.hotelservice.domain.dto.HotelDto;
 import uz.pdp.hotelservice.domain.entity.HotelEntity;
-
-import uz.pdp.hotelservice.domain.entity.LocationEntity;
 import uz.pdp.hotelservice.exeption.DataNotFoundException;
 import uz.pdp.hotelservice.exeption.DuplicateDataException;
 import uz.pdp.hotelservice.repository.HotelRepository;
-import uz.pdp.hotelservice.repository.LocationRepository;
 
 import java.util.List;
 import java.util.UUID;
