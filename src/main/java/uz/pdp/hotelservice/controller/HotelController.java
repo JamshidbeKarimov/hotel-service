@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@RequestMapping("hotel/api/v1")
+@RequestMapping("/hotel/api/v1")
 @RequiredArgsConstructor
 @RestController
 public class HotelController {
@@ -42,7 +42,6 @@ public class HotelController {
     }
 
     @PutMapping("/{id}/update")
-
     @PreAuthorize( value = "hasAnyRole('SUPER_ADMIN','MANAGER')")
     public ResponseEntity updateHotel(
             @PathVariable UUID id,
