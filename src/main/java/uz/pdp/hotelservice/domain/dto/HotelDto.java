@@ -15,6 +15,5 @@ public class HotelDto {
     private String name;
     private String about;
     private Map<String, Integer> size;
-
     private int stars;
 }

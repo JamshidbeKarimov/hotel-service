@@ -8,11 +8,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
 @AllArgsConstructor
+@Service
 public class JwtFilterToken extends OncePerRequestFilter {
     private AuthenticationService authenticationService;
     private JwtService jwtService;
