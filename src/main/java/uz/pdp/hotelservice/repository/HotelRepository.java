@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 @Repository
 public interface HotelRepository extends JpaRepository<HotelEntity, UUID> {
+
     Optional<HotelEntity> findByName(String name);
     Page<HotelEntity> findHotelEntitiesByParkingAvailableAndAvailabilityAndPetFriendly(boolean parking, boolean available, boolean petFriendly, Pageable pageable);
 
@@ -28,7 +29,5 @@ public interface HotelRepository extends JpaRepository<HotelEntity, UUID> {
 
     @Query("select h from hotels h join h.reviews r where h.id= :hotelId")
     Page<Review> findHotelEntitiesByReviews(@Param("hotelId") UUID hotelId, Pageable pageable);
-
-
 
 }
