@@ -30,4 +30,27 @@ public interface HotelRepository extends JpaRepository<HotelEntity, UUID> {
     @Query("select h from hotels h join h.reviews r where h.id= :hotelId")
     Page<Review> findHotelEntitiesByReviews(@Param("hotelId") UUID hotelId, Pageable pageable);
 
+    @Query("SELECT h FROM hotels h " +
+            "JOIN h.city c " +
+            "WHERE h.parkingAvailable = :parking " +
+            "AND h.availability = :available " +
+            "AND h.petFriendly = :petFriendly " +
+            "AND h.priceRangeMin >= :minPrice " +
+            "AND h.priceRangeMax <= :maxPrice " +
+            "AND c.name = :cityName " +
+            "AND c.country.name = :countryName")
+    Page<HotelEntity> findHotelsWithFilters(
+            @Param("parking") boolean parking,
+            @Param("available") boolean available,
+            @Param("petFriendly") boolean petFriendly,
+            @Param("minPrice") double minPrice,
+            @Param("maxPrice") double maxPrice,
+            @Param("cityName") String cityName,
+            @Param("countryName") String countryName,
+            Pageable pageable);
+
+
+
+
+
 }

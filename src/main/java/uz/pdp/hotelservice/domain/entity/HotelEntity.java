@@ -1,12 +1,14 @@
 package uz.pdp.hotelservice.domain.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import uz.pdp.hotelservice.domain.entity.moreOptions.*;
 import uz.pdp.hotelservice.domain.entity.region.City;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity(name = "hotels")
 @AllArgsConstructor
@@ -15,6 +17,7 @@ import java.util.List;
 @Setter
 @Builder
 public class HotelEntity extends BaseEntity{
+
     @Column(nullable = false)
     private String name;
 
@@ -66,5 +69,6 @@ public class HotelEntity extends BaseEntity{
     private boolean petFriendly=false;
     private boolean parkingAvailable=false;
 
-
+    @JsonIgnore
+    private UUID managerOfHotel;
 }
