@@ -1,14 +1,11 @@
 package uz.pdp.hotelservice.domain.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.*;
-import uz.pdp.hotelservice.domain.entity.region.Country;
+import org.springframework.web.multipart.MultipartFile;
+import uz.pdp.hotelservice.domain.entity.moreOptions.*;
+import uz.pdp.hotelservice.domain.entity.region.City;
 
 import java.util.List;
-import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,13 +15,21 @@ import java.util.Map;
 public class HotelDto {
     private String name;
     private String location;
-    private Country country;
-    private List<String> roomTypes;
+    private City city;
+    private List<RoomType> roomTypes;
     private List<String> roomAmenities;
-    private List<String> photos;
+    private List<MultipartFile> photos;
     private String description;
     private double priceRangeMin;
     private double priceRangeMax;
     private boolean availability;
     private String cancellationPolicy;
+    private List<Review> reviews;
+    private ContactInfo contactInfo;
+    private MapLocation mapLocation;
+    private List<PaymentMethod> paymentOptions;
+    private List<SpecialOffer> specialOffers;
+    private List<LanguageSpoken> languageSpokes;
+    private boolean petFriendly;
+    private boolean parkingAvailable;
 }

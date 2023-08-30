@@ -18,43 +18,45 @@ import java.util.UUID;
 public class HotelController {
     private final HotelService hotelService;
 
+    //ToDo: getHotelsByAvailablesController
+    //ToDo: getOneByName
+    //ToDo: getHotelById
+    //ToDo: getHotelsByAvailables
+    //ToDo: getHotelsByPriceMinAndMax
+    //ToDo: getHotelsByCityAndCountry
+    //ToDo: getHotelsByCityName
+    //ToDo: getHotelsByCountryName
+    //ToDo: getReviewsByHotelsId
+
     @PostMapping("/add")
-    @PreAuthorize(value = "hasRole('SUPER_ADMIN')")
-    public ResponseEntity addHotel(
+    @PreAuthorize(value = "hasAnyRole('SUPER_ADMIN','ADMIN')")
+    public ResponseEntity<HotelEntity> addHotel(
             @RequestBody HotelDto hotelDto
     ) {
         return ResponseEntity.ok(hotelService.save(hotelDto));
     }
 
-    @GetMapping("/{id}/getOne")
-    @PreAuthorize(value = "hasanyRole('SUPER_ADMIN','ADMIN','MANAGER')")
-    public ResponseEntity getOne(
+    @GetMapping("/{id}/hotel")
+    public ResponseEntity<HotelEntity> getOne(
             @PathVariable UUID id
     ) {
-        HotelEntity hotel = hotelService.getOneById(id);
-        Map<String, Object> response = new HashMap<>();
-        response.put("name", hotel.getName());
-        response.put("location", hotel.getLocation());
-        response.put("about", hotel.getAbout());
-        response.put("size", hotel.getSize());
-        response.put("stars", hotel.getStars());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(hotelService.getHotelById(id));
     }
 
     @PutMapping("/{id}/update")
-    @PreAuthorize( value = "hasAnyRole('SUPER_ADMIN','MANAGER')")
-    public ResponseEntity updateHotel(
+    @PreAuthorize( value = "hasAnyRole('SUPER_ADMIN','MANAGER','ADMIN')")
+    public ResponseEntity<HotelEntity> updateHotel(
             @PathVariable UUID id,
             @RequestBody HotelDto hotelDto
     ) {
-        HotelEntity hotel = hotelService.updateHotel(hotelDto, id);
-        return ResponseEntity.ok(hotel);
+        return ResponseEntity.ok(hotelService.updateHotel(hotelDto, id));
     }
-    @GetMapping("/{name}/deleteByName")
-    public String deleteHotel(
-            @PathVariable String name
+    @GetMapping("/{deletedId}/delete")
+    @PreAuthorize( value = "hasAnyRole('SUPER_ADMIN','MANAGER')")
+    public ResponseEntity<String> deleteHotel(
+            @PathVariable UUID deletedId
     ){
-        hotelService.deleteByName(name);
-        return "hotel delete";
+        hotelService.deleteById(deletedId);
+        return ResponseEntity.ok("hotel delete");
     }
 }
