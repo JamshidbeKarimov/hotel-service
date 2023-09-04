@@ -1,6 +1,7 @@
 package uz.pdp.hotelservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class HotelController {
     //ToDo: getReviewsByHotelsId
 
     @PostMapping("/add")
-    @PreAuthorize(value = "hasAnyRole('SUPER_ADMIN','ADMIN')")
+    @PreAuthorize(value = "hasAnyRole('SUPER_ADMIN','ADMIN','USER')")
     public ResponseEntity<HotelEntity> addHotel(
             @RequestBody HotelDto hotelDto
     ) {
@@ -40,7 +41,11 @@ public class HotelController {
     public ResponseEntity<HotelEntity> getOne(
             @PathVariable UUID id
     ) {
-        return ResponseEntity.ok(hotelService.getHotelById(id));
+        try {
+            return ResponseEntity.ok(hotelService.getHotelById(id));
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @PutMapping("/{id}/update")
@@ -57,6 +62,6 @@ public class HotelController {
             @PathVariable UUID deletedId
     ){
         hotelService.deleteById(deletedId);
-        return ResponseEntity.ok("hotel delete");
+        return ResponseEntity.ok("OK");
     }
 }

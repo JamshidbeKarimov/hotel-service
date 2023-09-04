@@ -1,15 +1,24 @@
 package uz.pdp.hotelservice.domain.entity.region;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.pdp.hotelservice.domain.entity.BaseEntity;
+import uz.pdp.hotelservice.domain.entity.HotelEntity;
+
+import java.util.List;
 
 @Entity(name = "countries")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Country extends BaseEntity {
-    @Column(nullable = false)
-    private String name;
+    @Column(nullable = true)
+    private String nameCountry;
+
+    @OneToMany(mappedBy = "country",cascade = CascadeType.ALL)
+    private List<City> cities;
 }

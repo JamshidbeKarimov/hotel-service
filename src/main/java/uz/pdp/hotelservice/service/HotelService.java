@@ -27,7 +27,7 @@ public class HotelService {
     @Transactional
     public HotelEntity save(HotelDto hotelDto){
        HotelEntity map = modelMapper.map(hotelDto, HotelEntity.class);
-       map.setLocation(hotelDto.getLocation());
+       map.setLocationOfGoogleMap(hotelDto.getLocation());
        return hotelRepository.save(map);
     }
 
@@ -57,8 +57,8 @@ public class HotelService {
         newHotel.setId(hotel.getId());
         if (newHotel.getName().isEmpty())
             newHotel.setName(hotel.getName());
-        if (newHotel.getLocation() == null)
-            newHotel.setLocation(hotel.getLocation());
+        if (newHotel.getLocationOfGoogleMap() == null)
+            newHotel.setLocationOfGoogleMap(hotel.getLocationOfGoogleMap());
         modelMapper.map(newHotel,HotelEntity.class);
        return hotelRepository.save(newHotel);
     }
