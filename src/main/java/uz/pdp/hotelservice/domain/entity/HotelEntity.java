@@ -4,8 +4,10 @@ package uz.pdp.hotelservice.domain.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.apache.http.entity.FileEntity;
 import uz.pdp.hotelservice.domain.entity.moreOptions.*;
 import uz.pdp.hotelservice.domain.entity.region.City;
+import uz.pdp.hotelservice.domain.entity.region.Country;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,18 +23,21 @@ public class HotelEntity extends BaseEntity{
     @Column(nullable = false)
     private String name;
 
-    private String location;
+    private String locationOfGoogleMap;
+
     @ManyToOne
-    @JoinColumn(name = "region_id")
+    @JoinColumn(name = "city_id")
     private City city;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "hotel_id")
     private List<RoomType> roomTypes;
+
     @ElementCollection
     private List<String> roomAmenities;
-    @ElementCollection
-    private List<String> photos;
+
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    private List<HotelFilesEntity> photos;
 
     private String description;
     private double priceRangeMin;
@@ -65,6 +70,14 @@ public class HotelEntity extends BaseEntity{
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "hotel_id")
     private List<LanguageSpoken> languageSpokens;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "hotel_events_conferences",
+            joinColumns = @JoinColumn(name = "hotel_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_conference_id")
+    )
+    private List<EventsAndConferencesEntity> eventsAndConferences;
 
     private boolean petFriendly=false;
     private boolean parkingAvailable=false;
