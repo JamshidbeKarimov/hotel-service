@@ -6,8 +6,8 @@ spring:
     name: HOTEL-SERVICE
   datasource:
     username: postgres
-    password: 1999
-    url: jdbc:postgresql://localhost:5432/spring
+    password: 1
+    url: jdbc:postgresql://localhost:5432/hotel_service
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
