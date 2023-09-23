@@ -29,12 +29,21 @@ public class HotelEntity extends BaseEntity{
     @JoinColumn(name = "city_id")
     private City city;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "hotel_id")
+    @ManyToMany
+    @JoinTable(
+            name = "hotel_room_type",
+            joinColumns = @JoinColumn(name = "hotel_id"),
+            inverseJoinColumns = @JoinColumn(name = "room_type_id")
+    )
     private List<RoomType> roomTypes;
 
-    @ElementCollection
-    private List<String> roomAmenities;
+    @ManyToMany
+    @JoinTable(
+            name = "room_amenity",
+            joinColumns = @JoinColumn(name = "hotel_id"),
+            inverseJoinColumns = @JoinColumn(name = "room_amenties_id")
+    )
+    private List<RoomAmenity> roomAmenities;
 
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private List<HotelFilesEntity> photos;
@@ -67,8 +76,12 @@ public class HotelEntity extends BaseEntity{
     @JoinColumn(name = "hotel_id")
     private List<SpecialOffer> specialOffers;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "hotel_id")
+    @ManyToMany
+    @JoinTable(
+            name = "hotel_language",
+            joinColumns = @JoinColumn(name = "hotel_id"),
+            inverseJoinColumns = @JoinColumn(name = "language_id")
+    )
     private List<LanguageSpoken> languageSpokens;
 
     @ManyToMany(cascade = CascadeType.ALL)

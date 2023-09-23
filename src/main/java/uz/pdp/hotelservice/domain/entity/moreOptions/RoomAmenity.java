@@ -8,16 +8,16 @@ import uz.pdp.hotelservice.domain.entity.HotelEntity;
 
 import java.util.List;
 
-@Entity(name = "event_conferences")
+@Entity(name = "room_amenities")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EventsAndConferencesEntity extends BaseEntity {
+public class RoomAmenity extends BaseEntity {
+    private String amenity;
 
-    private String eventAndConference;
+    @ManyToMany(mappedBy = "roomAmenities")
+    private List<HotelEntity> hotelEntities;
 
-    @ManyToMany(mappedBy = "eventsAndConferences")
-    private List<HotelEntity> hotels;
 }
