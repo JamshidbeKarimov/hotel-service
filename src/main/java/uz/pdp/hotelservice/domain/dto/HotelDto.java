@@ -21,7 +21,7 @@ public class HotelDto {
     private City city;
     private List<RoomType> roomTypes;
     private List<String> roomAmenities;
-    private List<MultipartFile > photos;
+    private List<MultipartFile> photos;
 
     private String description;
     private double priceRangeMin;

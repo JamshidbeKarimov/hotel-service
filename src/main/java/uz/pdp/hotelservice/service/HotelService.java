@@ -27,7 +27,6 @@ public class HotelService {
     @Transactional
     public HotelEntity save(HotelDto hotelDto){
        HotelEntity map = modelMapper.map(hotelDto, HotelEntity.class);
-       map.setLocationOfGoogleMap(hotelDto.getLocation());
        return hotelRepository.save(map);
     }
 

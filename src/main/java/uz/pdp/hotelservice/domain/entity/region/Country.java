@@ -1,10 +1,7 @@
 package uz.pdp.hotelservice.domain.entity.region;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import uz.pdp.hotelservice.domain.entity.BaseEntity;
 import uz.pdp.hotelservice.domain.entity.HotelEntity;
 
@@ -15,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Country extends BaseEntity {
     @Column(nullable = true)
     private String nameCountry;

@@ -4,10 +4,8 @@ package uz.pdp.hotelservice.domain.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.apache.http.entity.FileEntity;
 import uz.pdp.hotelservice.domain.entity.moreOptions.*;
 import uz.pdp.hotelservice.domain.entity.region.City;
-import uz.pdp.hotelservice.domain.entity.region.Country;
 
 import java.util.List;
 import java.util.UUID;
@@ -76,12 +74,7 @@ public class HotelEntity extends BaseEntity{
     @JoinColumn(name = "hotel_id")
     private List<SpecialOffer> specialOffers;
 
-    @ManyToMany
-    @JoinTable(
-            name = "hotel_language",
-            joinColumns = @JoinColumn(name = "hotel_id"),
-            inverseJoinColumns = @JoinColumn(name = "language_id")
-    )
+    @ManyToMany(mappedBy = "hotel")
     private List<LanguageSpoken> languageSpokens;
 
     @ManyToMany(cascade = CascadeType.ALL)

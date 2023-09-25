@@ -9,8 +9,6 @@ import uz.pdp.hotelservice.domain.dto.HotelDto;
 import uz.pdp.hotelservice.domain.entity.HotelEntity;
 import uz.pdp.hotelservice.service.HotelService;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @RequestMapping("/hotel/api/v1")
@@ -19,22 +17,12 @@ import java.util.UUID;
 public class HotelController {
     private final HotelService hotelService;
 
-    //ToDo: getHotelsByAvailablesController
-    //ToDo: getOneByName
-    //ToDo: getHotelById
-    //ToDo: getHotelsByAvailables
-    //ToDo: getHotelsByPriceMinAndMax
-    //ToDo: getHotelsByCityAndCountry
-    //ToDo: getHotelsByCityName
-    //ToDo: getHotelsByCountryName
-    //ToDo: getReviewsByHotelsId
-
     @PostMapping("/add")
     @PreAuthorize(value = "hasAnyRole('SUPER_ADMIN','ADMIN','USER')")
     public ResponseEntity<HotelEntity> addHotel(
             @RequestBody HotelDto hotelDto
     ) {
-        return ResponseEntity.ok(hotelService.save(hotelDto));
+        return ResponseEntity.status(200).body(hotelService.save(hotelDto));
     }
 
     @GetMapping("/{id}/hotel")
@@ -56,12 +44,17 @@ public class HotelController {
     ) {
         return ResponseEntity.ok(hotelService.updateHotel(hotelDto, id));
     }
-    @GetMapping("/{deletedId}/delete")
+    @DeleteMapping("/{deletedId}/delete")
     @PreAuthorize( value = "hasAnyRole('SUPER_ADMIN','MANAGER')")
     public ResponseEntity<String> deleteHotel(
             @PathVariable UUID deletedId
     ){
         hotelService.deleteById(deletedId);
         return ResponseEntity.ok("OK");
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> check(){
+        return ResponseEntity.ok("work!!!");
     }
 }

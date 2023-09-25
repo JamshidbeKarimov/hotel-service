@@ -24,8 +24,7 @@ public class City extends BaseEntity {
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @OneToMany
-    @JoinColumn(name = "hotel_id")
-    private List<HotelEntity> hotel;
+    @OneToMany(mappedBy = "city")
+    private List<HotelEntity> hotels;
 
 }

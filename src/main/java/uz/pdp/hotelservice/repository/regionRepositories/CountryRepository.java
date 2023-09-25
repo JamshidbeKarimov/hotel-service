@@ -7,5 +7,6 @@ import uz.pdp.hotelservice.domain.entity.region.Country;
 import java.util.UUID;
 @Repository
 public interface CountryRepository extends JpaRepository<Country, UUID> {
+    Country findCountriesById(UUID id);
 
 }
