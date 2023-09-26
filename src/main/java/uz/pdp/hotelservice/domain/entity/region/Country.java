@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @Builder
 public class Country extends BaseEntity {
-    @Column(nullable = true)
+    @Column(nullable = true, unique = true)
     private String nameCountry;
 
     @OneToMany(mappedBy = "country",cascade = CascadeType.ALL)

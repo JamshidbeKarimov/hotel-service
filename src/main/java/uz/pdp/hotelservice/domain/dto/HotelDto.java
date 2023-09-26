@@ -34,18 +34,18 @@ public class HotelDto {
 
     private ContactInfo contactInfo;
 
-
     private MapLocation mapLocation;
 
-
     private List<PaymentMethod> paymentOptions;
-
 
     private List<SpecialOffer> specialOffers;
 
     private List<LanguageSpoken> languageSpokens;
+
     private List<EventsAndConferencesEntity> eventsAndConferences;
+
     private boolean petFriendly=false;
+
     private boolean parkingAvailable=false;
 
     private UUID managerOfHotel;

@@ -14,4 +14,5 @@ import uz.pdp.hotelservice.domain.entity.BaseEntity;
 @Setter
 public class SpecialOffer extends BaseEntity {
     private String offer;
+    //TODO connection
 }

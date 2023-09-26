@@ -53,7 +53,7 @@ public class HotelEntity extends BaseEntity{
     @Column(nullable = false)
     private boolean availability=false;
 
-    private String cancellationPolicy;
+    private Boolean cancellationPolicy;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
     private List<Review> reviews;

@@ -1,9 +1,6 @@
 package uz.pdp.hotelservice.domain.entity.moreOptions;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.*;
 import uz.pdp.hotelservice.domain.entity.BaseEntity;
 import uz.pdp.hotelservice.domain.entity.HotelEntity;
@@ -17,6 +14,7 @@ import java.util.List;
 @Setter
 @Builder
 public class LanguageSpoken extends BaseEntity {
+    @Column(unique = true, nullable = false)
     private String language;
 
     @ManyToMany

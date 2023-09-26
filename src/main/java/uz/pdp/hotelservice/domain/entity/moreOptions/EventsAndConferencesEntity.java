@@ -1,5 +1,6 @@
 package uz.pdp.hotelservice.domain.entity.moreOptions;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import lombok.*;
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class EventsAndConferencesEntity extends BaseEntity {
-
+    @Column(nullable = false, unique = true)
     private String eventAndConference;
 
     @ManyToMany(mappedBy = "eventsAndConferences")

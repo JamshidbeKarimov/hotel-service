@@ -15,4 +15,6 @@ import uz.pdp.hotelservice.domain.entity.BaseEntity;
 public class MapLocation extends BaseEntity{
     private double latitude;
     private double longitude;
+
+    //TODO connection
 }

@@ -13,4 +13,5 @@ import uz.pdp.hotelservice.domain.entity.BaseEntity;
 @Setter
 public class ContactInfo extends BaseEntity {
     private String phoneNumber=null, email=null, instagram=null, facebook=null, youtube=null, twitter=null, telegram=null;
+    //TODO connection
 }
