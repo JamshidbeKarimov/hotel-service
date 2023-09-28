@@ -12,6 +12,5 @@ import uz.pdp.hotelservice.domain.entity.BaseEntity;
 @Getter
 @Setter
 public class PaymentMethod extends BaseEntity {
-    //TODO connection
     private String name;
 }

@@ -45,7 +45,7 @@ public class HotelEntity extends BaseEntity{
 
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private List<HotelFilesEntity> photos;
-
+    @Column(length = 1000000 )
     private String description;
     private double priceRangeMin;
     private double priceRangeMax;

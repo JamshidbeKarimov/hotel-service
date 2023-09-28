@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.pdp.hotelservice.domain.dto.HotelDto;
 import uz.pdp.hotelservice.domain.entity.HotelEntity;
-import uz.pdp.hotelservice.domain.entity.moreOptions.Review;
+import uz.pdp.hotelservice.domain.entity.moreOptions.*;
 import uz.pdp.hotelservice.exeption.DataNotFoundException;
-import uz.pdp.hotelservice.exeption.DuplicateDataException;
 import uz.pdp.hotelservice.repository.HotelRepository;
+import uz.pdp.hotelservice.repository.regionRepositories.RoomAmenityRepository;
+import uz.pdp.hotelservice.repository.regionRepositories.RoomTypesRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,9 +26,16 @@ import java.util.UUID;
 public class HotelService {
     private final ModelMapper modelMapper;
     private final HotelRepository hotelRepository;
+    private final RoomTypesRepository roomTypesRepository;
+    private final RoomAmenityRepository amenityRepository;
     @Transactional
     public HotelEntity save(HotelDto hotelDto){
        HotelEntity map = modelMapper.map(hotelDto, HotelEntity.class);
+       map.setPaymentOptions(convertFromStrToClass(
+               hotelDto.getPaymentOptions(), PaymentMethod.class));
+       map.setLanguageSpokens(convertFromStrToClass(hotelDto.getLanguageSpokens(), LanguageSpoken.class));
+        roomTypesRepository.saveAll(hotelDto.getRoomTypes());
+        amenityRepository.saveAll(hotelDto.getRoomAmenities());
        return hotelRepository.save(map);
     }
 
@@ -35,10 +44,9 @@ public class HotelService {
     }
 
     public HotelEntity getOneByName(String name){
-        HotelEntity hotel = hotelRepository.findByName(name).orElseThrow(
+        return hotelRepository.findByName(name).orElseThrow(
                 ()-> new DataNotFoundException("hotel not found")
         );
-        return hotel;
     }
 
     public void deleteById(UUID hotelId){
@@ -95,5 +103,31 @@ public class HotelService {
         return PageRequest.of(page, size, sort);
     }
 
+    private static <T> List<T> convertFromStrToClass(List<String> list, Class<T> clazz) {
+        List<T> convertedList = new ArrayList<>();
+
+        try {
+            for (String str : list) {
+                T obj = clazz.getDeclaredConstructor(String.class).newInstance(str);
+                convertedList.add(obj);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return convertedList;
+    }
+
+    private List<RoomType> roomTypesToEntity(List<RoomType> roomList){
+        List<RoomType> roomTypes = new ArrayList<>();
+        for (RoomType type: roomList){
+            if(roomTypesRepository.findRoomTypeByTypeName(type.getTypeName()).isEmpty()){
+              roomTypes.add(roomTypesRepository.save(type));
+            }else{
+                roomTypes.add(roomTypesRepository.findRoomTypeByTypeName(type.getTypeName()).orElseThrow(()-> new DataNotFoundException("Not found")));
+            }
+            }
+        return roomTypes;
+    }
 
 }
