@@ -66,15 +66,22 @@ public class HotelEntity extends BaseEntity{
     @JoinColumn(name = "map_location_id")
     private MapLocation mapLocation;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "hotel_id")
+    @ManyToMany
+    @JoinTable(name = "hotel_payment_methods",
+                joinColumns = @JoinColumn(name = "hotel_id"),
+                inverseJoinColumns = @JoinColumn(name = "payment_method_id"))
     private List<PaymentMethod> paymentOptions;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "hotel_id")
     private List<SpecialOffer> specialOffers;
 
-    @ManyToMany(mappedBy = "hotel")
+    @ManyToMany
+    @JoinTable(
+            name = "hotel_language",
+            joinColumns = @JoinColumn(name = "hotel_id"),
+            inverseJoinColumns = @JoinColumn(name = "language_id")
+    )
     private List<LanguageSpoken> languageSpokens;
 
     @ManyToMany(cascade = CascadeType.ALL)

@@ -8,4 +8,5 @@ import uz.pdp.hotelservice.domain.entity.moreOptions.LanguageSpoken;
 import java.util.UUID;
 @Repository
 public interface LanguageSpokenRepository extends JpaRepository<LanguageSpoken, UUID> {
+    LanguageSpoken findLanguageSpokenByLanguage(String language);
 }

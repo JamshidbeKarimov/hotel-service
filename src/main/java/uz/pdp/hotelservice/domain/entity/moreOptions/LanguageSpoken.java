@@ -1,5 +1,6 @@
 package uz.pdp.hotelservice.domain.entity.moreOptions;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import uz.pdp.hotelservice.domain.entity.BaseEntity;
@@ -16,12 +17,7 @@ import java.util.List;
 public class LanguageSpoken extends BaseEntity {
     @Column(unique = true, nullable = false)
     private String language;
-
-    @ManyToMany
-    @JoinTable(
-            name = "hotel_language",
-            joinColumns = @JoinColumn(name = "hotel_id"),
-            inverseJoinColumns = @JoinColumn(name = "language_id")
-    )
+    @JsonIgnore
+    @ManyToMany(mappedBy = "languageSpokens")
     private List<HotelEntity> hotel;
 }

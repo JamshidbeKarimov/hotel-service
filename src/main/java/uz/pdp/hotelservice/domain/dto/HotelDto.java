@@ -19,7 +19,7 @@ public class HotelDto {
     private String locationOfGoogleMap;
     private City city;
     private List<RoomType> roomTypes;
-    private List<RoomAmenity> roomAmenities; // TODO not work
+    private List<RoomAmenity> roomAmenities;
     private List<MultipartFile> photos; // TODO not work
 
     private String description;
@@ -38,7 +38,7 @@ public class HotelDto {
 
     private List<SpecialOffer> specialOffers;
 
-    private List<String> languageSpokens; // TODO not work
+    private List<LanguageSpoken> languageSpokens; // TODO not work
 
     private List<EventsAndConferencesEntity> eventsAndConferences;
 

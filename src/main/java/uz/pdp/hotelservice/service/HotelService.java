@@ -14,11 +14,14 @@ import uz.pdp.hotelservice.domain.entity.HotelEntity;
 import uz.pdp.hotelservice.domain.entity.moreOptions.*;
 import uz.pdp.hotelservice.exeption.DataNotFoundException;
 import uz.pdp.hotelservice.repository.HotelRepository;
+import uz.pdp.hotelservice.repository.regionRepositories.LanguageSpokenRepository;
+import uz.pdp.hotelservice.repository.regionRepositories.PaymentMethodRepository;
 import uz.pdp.hotelservice.repository.regionRepositories.RoomAmenityRepository;
 import uz.pdp.hotelservice.repository.regionRepositories.RoomTypesRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -27,17 +30,19 @@ public class HotelService {
     private final ModelMapper modelMapper;
     private final HotelRepository hotelRepository;
     private final RoomTypesRepository roomTypesRepository;
-    private final RoomAmenityRepository amenityRepository;
+    private final RoomAmenityRepository roomAmenityRepository;
+    private final LanguageSpokenRepository languageSpokenRepository;
+    private final PaymentMethodRepository paymentMethodRepository;
     @Transactional
     public HotelEntity save(HotelDto hotelDto){
        HotelEntity map = modelMapper.map(hotelDto, HotelEntity.class);
-       map.setPaymentOptions(convertFromStrToClass(
-               hotelDto.getPaymentOptions(), PaymentMethod.class));
-       map.setLanguageSpokens(convertFromStrToClass(hotelDto.getLanguageSpokens(), LanguageSpoken.class));
-        roomTypesRepository.saveAll(hotelDto.getRoomTypes());
-        amenityRepository.saveAll(hotelDto.getRoomAmenities());
+        map.setPaymentOptions(checkPaymentMethodAndCreatePayment(hotelDto.getPaymentOptions()));
+        map.setLanguageSpokens(checkAndCreateLanguage(hotelDto.getLanguageSpokens()));
+        map.setRoomTypes(checkRoomTypeAndCreateType(hotelDto.getRoomTypes()));
+        map.setRoomAmenities(checkRoomAmenitiesAndSaCreateAmenity(hotelDto.getRoomAmenities()));
        return hotelRepository.save(map);
     }
+
 
     public HotelEntity getHotelById(UUID id){
         return hotelRepository.findById(id).orElseThrow(()-> new DataNotFoundException("hotel not found"));
@@ -130,4 +135,60 @@ public class HotelService {
         return roomTypes;
     }
 
+    private List<LanguageSpoken> checkAndCreateLanguage(List<LanguageSpoken> languages) {
+        List<LanguageSpoken> languageSpokenList = new ArrayList<>();
+        for (LanguageSpoken language : languages) {
+            LanguageSpoken existingLanguage = languageSpokenRepository.findLanguageSpokenByLanguage(language.getLanguage());
+            if (existingLanguage == null) {
+                LanguageSpoken savedLanguage = languageSpokenRepository.save(language);
+                languageSpokenList.add(savedLanguage);
+            } else {
+                languageSpokenList.add(existingLanguage);
+            }
+        }
+        return languageSpokenList;
+    }
+
+    private List<RoomType> checkRoomTypeAndCreateType(List<RoomType> roomTypes){
+        List<RoomType> roomTypeList = new ArrayList<>();
+        for (RoomType type : roomTypes) {
+            Optional<RoomType> found = roomTypesRepository.findRoomTypeByTypeName(type.getTypeName());
+            if (found.isEmpty()) {
+                RoomType rt = roomTypesRepository.save(type);
+                roomTypeList.add(rt);
+            } else {
+                roomTypeList.add(found.orElseThrow(()-> new DataNotFoundException("RoomType not found")));
+            }
+        }
+        return roomTypeList;
+    }
+
+    private List<RoomAmenity> checkRoomAmenitiesAndSaCreateAmenity(List<RoomAmenity> roomAmenities) {
+        List<RoomAmenity> roomAmenitiesList = new ArrayList<>();
+        for (RoomAmenity amenity : roomAmenities) {
+            Optional<RoomAmenity> found = roomAmenityRepository.findRoomAmenitiesByAmenity(amenity.getAmenity());
+            if (found.isEmpty()) {
+                RoomAmenity rm = roomAmenityRepository.save(amenity);
+                roomAmenitiesList.add(rm);
+            } else {
+                roomAmenitiesList.add(found.orElseThrow(()-> new DataNotFoundException("Amenity not found")));
+            }
+        }
+        return roomAmenitiesList;
+    }
+
+
+    private List<PaymentMethod> checkPaymentMethodAndCreatePayment(List<String> paymentOptions) {
+        List<PaymentMethod> paymentMethodsList = new ArrayList<>();
+        for (PaymentMethod amenity : convertFromStrToClass(paymentOptions, PaymentMethod.class)) {
+            Optional<PaymentMethod> found = paymentMethodRepository.findPaymentMethodByName(amenity.getName());
+            if (found.isEmpty()) {
+                PaymentMethod rm = paymentMethodRepository.save(amenity);
+                paymentMethodsList.add(rm);
+            } else {
+                paymentMethodsList.add(found.orElseThrow(()-> new DataNotFoundException("Payment_method not found")));
+            }
+        }
+        return paymentMethodsList;
+    }
 }
